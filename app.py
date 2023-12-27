@@ -174,34 +174,27 @@ def main():
             f"Question {question_index + 1}/{NUMBER_OF_LOGS} - {log_quest['question_id']}"
         )
         # display question base and improved with highlighted differences
-        question_base = log_quest["question_base"]
-        # question_improved = log_quest["question_improved"]
         ground_truth = log_quest["ground_truth"]
-        diff = difflib.Differ().compare(question_base, ground_truth)
+        question_base = log_quest["question_base"]
+
+        diff = difflib.Differ().compare(ground_truth, question_base)
 
         result1, result2 = highlight_differences(
-            list(diff), question_base, ground_truth
+            list(diff), ground_truth, question_base
         )
 
         # Display in two columns
-        col1, col2, col3 = st.columns(3)
+        col1, col2 = st.columns(2)
         with col1:
-            st.header("Question base")
-            st.markdown(f"**LER: {log_quest['ler_base']}**")
+            st.header("Ground truth")
+            st.markdown(f"**{log_quest['question_id']}**")
             st.markdown("<hr />", unsafe_allow_html=True)
             for line_num, line in enumerate(result1, start=1):
                 st.markdown(f":blue[{line_num} &rarr;] {line}", unsafe_allow_html=True)
 
         with col2:
-            st.header("Question improved")
-            st.markdown(f"**LER: {log_quest['ler_improved']}**")
-            st.markdown("<hr />", unsafe_allow_html=True)
-            for line_num, line in enumerate(log_quest["question_improved"], start=1):
-                st.markdown(f":blue[{line_num} &rarr;] {line}", unsafe_allow_html=True)
-
-        with col3:
-            st.header("Ground truth")
-            st.markdown(f"**{log_quest['question_id']}**")
+            st.header("Question base")
+            st.markdown(f"**LER: {log_quest['ler_base']}**")
             st.markdown("<hr />", unsafe_allow_html=True)
             for line_num, line in enumerate(result2, start=1):
                 st.markdown(f":blue[{line_num} &rarr;] {line}", unsafe_allow_html=True)
