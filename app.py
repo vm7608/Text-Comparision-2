@@ -96,7 +96,7 @@ def highlight_differences(
                 if idx + 1 < len(diff_result) and diff_result[idx + 1].startswith("- "):
                     # Line removed from text1 and not appear in text2
                     result1.append(HIGHT_LIGHT_CODE_1 + text1[i1] + RESET_CODE)
-                    # result2.append("") # TODO: maybe add this line
+                    result2.append("")  # TODO: maybe add this line
                 if idx + 1 < len(diff_result) and diff_result[idx + 1].startswith("+ "):
                     # Line removed from text1 and appear in text2
                     result1.append(text1[i1])
@@ -176,6 +176,9 @@ def main():
         # display question base and improved with highlighted differences
         ground_truth = log_quest["ground_truth"]
         question_base = log_quest["question_base"]
+        question_base_str = "\n".join(question_base)
+        question_base_str = question_base_str.replace("$", "")
+        question_base = question_base_str.split("\n")
 
         diff = difflib.Differ().compare(ground_truth, question_base)
 
